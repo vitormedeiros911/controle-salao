@@ -7,16 +7,21 @@ import {
   ParseIntPipe,
   Patch,
   Delete,
+  UsePipes,
+  ValidationPipe,
+  Query,
 } from '@nestjs/common';
 
 import { ProcedureService } from './procedure.service';
 import { Procedure } from './procedure.entity';
 import { CreateProcedureDTO } from './DTO/create-procedure.dto';
+import { FilterProcedureDTO } from './DTO/filter-procedure.dto';
 
 @Controller('procedure')
 export class ProcedureController {
   constructor(private procedureService: ProcedureService) {}
   @Post('new')
+  @UsePipes(ValidationPipe)
   createProcedure(
     @Body() createProcedureDTO: CreateProcedureDTO,
   ): Promise<Procedure> {
@@ -24,7 +29,12 @@ export class ProcedureController {
   }
 
   @Get()
-  getAllProcedures(): Promise<Procedure[]> {
+  getAllProcedures(
+    @Query(ValidationPipe) filter: FilterProcedureDTO,
+  ): Promise<Procedure[]> {
+    if (filter) {
+      return this.procedureService.getAllProcedures(filter);
+    }
     return this.procedureService.getAllProcedures();
   }
 

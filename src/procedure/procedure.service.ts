@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ProcedureRepository } from './procedure.repository';
 import { Procedure } from './procedure.entity';
 import { CreateProcedureDTO } from './DTO/create-procedure.dto';
+import { FilterProcedureDTO } from './DTO/filter-procedure.dto';
 
 @Injectable()
 export class ProcedureService {
@@ -15,12 +16,18 @@ export class ProcedureService {
   async createProcedure(
     createProcedureDTO: CreateProcedureDTO,
   ): Promise<Procedure> {
-    const procedure = await this.procedureRepository.create(createProcedureDTO);
-    return this.procedureRepository.save(procedure);
+    const procedure = this.procedureRepository.create(createProcedureDTO);
+    return await this.procedureRepository.save(procedure);
   }
 
-  async getAllProcedures(): Promise<Procedure[]> {
-    return this.procedureRepository.find();
+  async getAllProcedures(filter?: FilterProcedureDTO): Promise<Procedure[]> {
+    if (filter.search) {
+      return await this.procedureRepository.find({
+        where: { name: filter.search },
+      });
+    }
+
+    return await this.procedureRepository.find();
   }
 
   async getOneProcedure(id: number): Promise<Procedure> {
@@ -47,6 +54,6 @@ export class ProcedureService {
   async deleteProcedure(id: number): Promise<void> {
     await this.getOneProcedure(id);
 
-    this.procedureRepository.delete({ id });
+    await this.procedureRepository.delete({ id });
   }
 }
