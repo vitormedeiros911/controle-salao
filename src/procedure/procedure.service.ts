@@ -5,6 +5,7 @@ import { ProcedureRepository } from './procedure.repository';
 import { Procedure } from './procedure.entity';
 import { CreateProcedureDTO } from './DTO/create-procedure.dto';
 import { FilterProcedureDTO } from './DTO/filter-procedure.dto';
+import { ProcedureExistentException } from './procedureExistent.exception';
 
 @Injectable()
 export class ProcedureService {
@@ -16,8 +17,18 @@ export class ProcedureService {
   async createProcedure(
     createProcedureDTO: CreateProcedureDTO,
   ): Promise<Procedure> {
-    const procedure = this.procedureRepository.create(createProcedureDTO);
-    return await this.procedureRepository.save(procedure);
+    const { name } = createProcedureDTO;
+
+    const existentProcedure = this.procedureRepository.findOne({
+      where: { name },
+    });
+
+    if (existentProcedure) {
+      throw new ProcedureExistentException();
+    } else {
+      const procedure = this.procedureRepository.create(createProcedureDTO);
+      return await this.procedureRepository.save(procedure);
+    }
   }
 
   async getAllProcedures(filter?: FilterProcedureDTO): Promise<Procedure[]> {
