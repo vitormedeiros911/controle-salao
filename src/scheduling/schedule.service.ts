@@ -17,7 +17,7 @@ export class ScheduleService {
   ): Promise<Schedule> {
     const { date } = createScheduleDTO;
 
-    const existentSchedule = this.scheduleRepository.findOne({
+    const existentSchedule = await this.scheduleRepository.findOne({
       where: { date },
     });
 

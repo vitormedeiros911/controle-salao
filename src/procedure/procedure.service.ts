@@ -19,9 +19,11 @@ export class ProcedureService {
   ): Promise<Procedure> {
     const { name } = createProcedureDTO;
 
-    const existentProcedure = this.procedureRepository.findOne({
-      where: { name },
-    });
+    const existentProcedure: Procedure = await this.procedureRepository.findOne(
+      {
+        where: { name },
+      },
+    );
 
     if (existentProcedure) {
       throw new ProcedureExistentException();

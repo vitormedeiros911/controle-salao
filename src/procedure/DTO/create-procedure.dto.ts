@@ -1,11 +1,11 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
 
 export class CreateProcedureDTO {
   @IsString()
   @IsNotEmpty({ message: 'O nome do procedimento não pode estar vazio' })
   name: string;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty({ message: 'O preço do procedimento não pode estar vazio' })
   cost: number;
 }

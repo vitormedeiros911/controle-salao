@@ -13,7 +13,7 @@ export class Schedule extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({type: 'timestamp without time zone'})
   date: Date;
 
   @Column()
