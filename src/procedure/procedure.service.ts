@@ -5,12 +5,16 @@ import { ProcedureRepository } from './procedure.repository';
 import { Procedure } from './procedure.entity';
 import { CreateProcedureDTO } from './DTO/create-procedure.dto';
 import { ProcedureExistentException } from './procedureExistent.exception';
+import { CannotDeleteEntityException } from 'src/exception/CannotDeleteEntity.exception';
+
+import { ScheduleService } from 'src/scheduling/schedule.service';
 
 @Injectable()
 export class ProcedureService {
   constructor(
     @InjectRepository(ProcedureRepository)
     private procedureRepository: ProcedureRepository,
+    private scheduleService: ScheduleService,
   ) {}
 
   async createProcedure(
@@ -54,8 +58,13 @@ export class ProcedureService {
   }
 
   async deleteProcedure(id: number): Promise<void> {
-    await this.getOneProcedure(id);
+    const relatedProcedure = await this.scheduleService.getRelatedProcedure(id);
 
-    await this.procedureRepository.delete({ id });
+    if (relatedProcedure) {
+      throw new CannotDeleteEntityException();
+    } else {
+      await this.getOneProcedure(id);
+      await this.procedureRepository.delete({ id });
+    }
   }
 }

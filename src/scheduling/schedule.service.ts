@@ -56,4 +56,14 @@ export class ScheduleService {
 
     await this.scheduleRepository.delete({ id });
   }
+
+  async getRelatedProcedure(id: number): Promise<boolean> {
+    const found = await this.scheduleRepository.findOne({
+      where: { procedureId: id },
+    });
+
+    if (found) return true;
+
+    return false;
+  }
 }
