@@ -8,7 +8,6 @@ import {
   Patch,
   Delete,
   UsePipes,
-  ValidationPipe,
   Query,
 } from '@nestjs/common';
 
@@ -16,12 +15,18 @@ import { ProcedureService } from './procedure.service';
 import { Procedure } from './procedure.entity';
 import { CreateProcedureDTO } from './DTO/create-procedure.dto';
 import { FilterDTO } from '../DTO/filter.dto';
+import { ProcedureRepository } from './procedure.repository';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Controller('procedure')
 export class ProcedureController {
-  constructor(private procedureService: ProcedureService) {}
+  constructor(
+    @InjectRepository(ProcedureRepository)
+    private procedureRepository: ProcedureRepository,
+    private procedureService: ProcedureService,
+  ) {}
   @Post('new')
-  @UsePipes(ValidationPipe)
+  @UsePipes()
   createProcedure(
     @Body() createProcedureDTO: CreateProcedureDTO,
   ): Promise<Procedure> {
@@ -29,13 +34,14 @@ export class ProcedureController {
   }
 
   @Get()
-  getAllProcedures(
-    @Query(ValidationPipe) filter: FilterDTO,
-  ): Promise<Procedure[]> {
-    if (filter) {
-      return this.procedureService.getAllProcedures(filter);
+  async getAllProcedures(@Query() filter: FilterDTO): Promise<Procedure[]> {
+    if (filter.search) {
+      return await this.procedureRepository.find({
+        where: { name: filter.search },
+      });
     }
-    return this.procedureService.getAllProcedures();
+
+    return await this.procedureRepository.find();
   }
 
   @Get(':id')

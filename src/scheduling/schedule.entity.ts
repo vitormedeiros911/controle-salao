@@ -23,7 +23,7 @@ export class Schedule extends BaseEntity {
   @Column({ default: ScheduleStatus.AGENDADO })
   status: ScheduleStatus;
 
-  @ManyToOne(type => Procedure)
+  @ManyToOne(() => Procedure)
   procedure: Procedure;
 
   @Column()

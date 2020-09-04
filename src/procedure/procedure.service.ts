@@ -33,16 +33,6 @@ export class ProcedureService {
     }
   }
 
-  async getAllProcedures(filter?: FilterDTO): Promise<Procedure[]> {
-    if (filter.search) {
-      return await this.procedureRepository.find({
-        where: { name: filter.search },
-      });
-    }
-
-    return await this.procedureRepository.find();
-  }
-
   async getOneProcedure(id: number): Promise<Procedure> {
     const procedure = await this.procedureRepository.findOne({ where: { id } });
 
