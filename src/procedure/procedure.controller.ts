@@ -10,13 +10,13 @@ import {
   UsePipes,
   Query,
 } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 
 import { ProcedureService } from './procedure.service';
 import { Procedure } from './procedure.entity';
 import { CreateProcedureDTO } from './DTO/create-procedure.dto';
 import { FilterDTO } from '../DTO/filter.dto';
 import { ProcedureRepository } from './procedure.repository';
-import { InjectRepository } from '@nestjs/typeorm';
 
 @Controller('procedure')
 export class ProcedureController {
@@ -25,6 +25,7 @@ export class ProcedureController {
     private procedureRepository: ProcedureRepository,
     private procedureService: ProcedureService,
   ) {}
+
   @Post('new')
   @UsePipes()
   createProcedure(

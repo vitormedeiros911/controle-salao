@@ -9,12 +9,13 @@ import {
   Patch,
   Delete,
 } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+
 import { ScheduleService } from './schedule.service';
 import { CreateScheduleDTO } from './DTO/create-schedule.dto';
 import { Schedule } from './schedule.entity';
 import { ScheduleStatusValidationPipe } from './pipes/status-validation.pipe';
 import { ScheduleStatus } from './schedule-status.enum';
-import { InjectRepository } from '@nestjs/typeorm';
 import { ScheduleRepository } from './schedule.repository';
 import { FilterScheduleDTO } from './DTO/filter-schedule.dto';
 

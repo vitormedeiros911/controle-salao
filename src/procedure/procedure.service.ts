@@ -5,7 +5,6 @@ import { ProcedureRepository } from './procedure.repository';
 import { Procedure } from './procedure.entity';
 import { CreateProcedureDTO } from './DTO/create-procedure.dto';
 import { ProcedureExistentException } from './procedureExistent.exception';
-import { FilterDTO } from 'src/DTO/filter.dto';
 
 @Injectable()
 export class ProcedureService {

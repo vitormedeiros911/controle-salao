@@ -1,5 +1,6 @@
-import { ScheduleStatus } from '../schedule-status.enum';
 import { PipeTransform, BadRequestException } from '@nestjs/common';
+
+import { ScheduleStatus } from '../schedule-status.enum';
 
 export class ScheduleStatusValidationPipe implements PipeTransform {
   readonly allowedStatuses = [ScheduleStatus.AGENDADO, ScheduleStatus.FEITO];
