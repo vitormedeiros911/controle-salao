@@ -46,7 +46,7 @@ export class ScheduleController {
   }
 
   @Patch('edit/:id')
-  updateProcedure(
+  updateSchedule(
     @Param('id', ParseIntPipe) id: number,
     @Body() createScheduleDTO: Partial<CreateScheduleDTO>,
     @Body('status', ScheduleStatusValidationPipe) status: ScheduleStatus,
@@ -54,11 +54,11 @@ export class ScheduleController {
     if (status) {
       createScheduleDTO.status = status;
     }
-    return this.scheduleService.updateProcedure(id, createScheduleDTO);
+    return this.scheduleService.updateSchedule(id, createScheduleDTO);
   }
 
   @Delete(':id')
-  deleteProcedure(@Param('id', ParseIntPipe) id: number): Promise<void> {
+  deleteSchedule(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.scheduleService.deleteSchedule(id);
   }
 }

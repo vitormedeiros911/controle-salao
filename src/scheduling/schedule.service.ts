@@ -49,7 +49,7 @@ export class ScheduleService {
     return schedule;
   }
 
-  async updateProcedure(
+  async updateSchedule(
     id: number,
     createScheduleDTO: Partial<CreateScheduleDTO>,
   ): Promise<Schedule> {
