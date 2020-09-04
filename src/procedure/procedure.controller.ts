@@ -27,7 +27,6 @@ export class ProcedureController {
   ) {}
 
   @Post('new')
-  @UsePipes()
   createProcedure(
     @Body() createProcedureDTO: CreateProcedureDTO,
   ): Promise<Procedure> {
