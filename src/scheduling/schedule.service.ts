@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Schedule } from './schedule.entity';
 import { ScheduleRepository } from './schedule.repository';
 import { CreateScheduleDTO } from './DTO/create-schedule.dto';
 import { ScheduleExistentException } from './scheduleExistent.exception';
-
+import { FilterDTO } from 'src/DTO/filter.dto';
 @Injectable()
 export class ScheduleService {
   constructor(
@@ -27,5 +27,43 @@ export class ScheduleService {
       const schedule = this.scheduleRepository.create(createScheduleDTO);
       return await this.scheduleRepository.save(schedule);
     }
+  }
+
+  async getAllSchedules(filter?: FilterDTO): Promise<Schedule[]> {
+    if (filter.search) {
+      return await this.scheduleRepository.find({
+        where: { date: filter.search },
+      });
+    }
+
+    return await this.scheduleRepository.find();
+  }
+
+  async getOneSchedule(id: number): Promise<Schedule> {
+    const schedule = await this.scheduleRepository.findOne({ where: { id } });
+
+    if (!schedule) {
+      throw new NotFoundException('Agendamento não encontrado');
+    }
+
+    return schedule;
+  }
+
+  async updateProcedure(
+    id: number,
+    createScheduleDTO: Partial<CreateScheduleDTO>,
+  ): Promise<Schedule> {
+    await this.getOneSchedule(id);
+
+    await this.scheduleRepository.update({ id }, createScheduleDTO);
+
+    const schedule = await this.getOneSchedule(id);
+    return schedule;
+  }
+
+  async deleteSchedule(id: number): Promise<void> {
+    await this.getOneSchedule(id);
+
+    await this.scheduleRepository.delete({ id });
   }
 }

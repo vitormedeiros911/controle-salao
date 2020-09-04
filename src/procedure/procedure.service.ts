@@ -4,8 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ProcedureRepository } from './procedure.repository';
 import { Procedure } from './procedure.entity';
 import { CreateProcedureDTO } from './DTO/create-procedure.dto';
-import { FilterProcedureDTO } from './DTO/filter-procedure.dto';
 import { ProcedureExistentException } from './procedureExistent.exception';
+import { FilterDTO } from 'src/DTO/filter.dto';
 
 @Injectable()
 export class ProcedureService {
@@ -33,7 +33,7 @@ export class ProcedureService {
     }
   }
 
-  async getAllProcedures(filter?: FilterProcedureDTO): Promise<Procedure[]> {
+  async getAllProcedures(filter?: FilterDTO): Promise<Procedure[]> {
     if (filter.search) {
       return await this.procedureRepository.find({
         where: { name: filter.search },

@@ -15,7 +15,7 @@ import {
 import { ProcedureService } from './procedure.service';
 import { Procedure } from './procedure.entity';
 import { CreateProcedureDTO } from './DTO/create-procedure.dto';
-import { FilterProcedureDTO } from './DTO/filter-procedure.dto';
+import { FilterDTO } from '../DTO/filter.dto';
 
 @Controller('procedure')
 export class ProcedureController {
@@ -30,7 +30,7 @@ export class ProcedureController {
 
   @Get()
   getAllProcedures(
-    @Query(ValidationPipe) filter: FilterProcedureDTO,
+    @Query(ValidationPipe) filter: FilterDTO,
   ): Promise<Procedure[]> {
     if (filter) {
       return this.procedureService.getAllProcedures(filter);
