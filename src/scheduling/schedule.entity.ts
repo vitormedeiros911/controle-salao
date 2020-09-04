@@ -8,6 +8,7 @@ import {
 
 import { Procedure } from '../procedure/procedure.entity';
 import { ScheduleStatus } from './schedule-status.enum';
+import { Client } from '../client/client.entity';
 
 @Entity()
 export class Schedule extends BaseEntity {
@@ -17,9 +18,6 @@ export class Schedule extends BaseEntity {
   @Column({ type: 'timestamp without time zone' })
   date: Date;
 
-  @Column()
-  client: string;
-
   @Column({ default: ScheduleStatus.AGENDADO })
   status: ScheduleStatus;
 
@@ -28,4 +26,11 @@ export class Schedule extends BaseEntity {
 
   @Column()
   procedureId: number;
+
+  @ManyToOne(() => Client)
+  client: Client;
+
+  @Column()
+  clientId: number;
+
 }

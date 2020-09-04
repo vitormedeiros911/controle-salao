@@ -7,7 +7,6 @@ import {
   ParseIntPipe,
   Patch,
   Delete,
-  UsePipes,
   Query,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';

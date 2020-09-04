@@ -1,10 +1,20 @@
-import { Controller, Get, Query, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  Post,
+  Body,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Delete,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { ClientService } from './client.service';
 import { FilterDTO } from 'src/DTO/filter.dto';
 import { ClientRepository } from './client.repository';
-import { Client } from './cliente.entity';
+import { Client } from './client.entity';
 import { CreateClientDTO } from './DTO/create-client.dto';
 
 @Controller('client')
@@ -30,5 +40,23 @@ export class ClientController {
       });
     }
     return await this.clientRepository.find();
+  }
+
+  @Get(':id')
+  getOneClient(@Param('id', ParseIntPipe) id: number): Promise<Client> {
+    return this.clientService.getOneClient(id);
+  }
+
+  @Patch('edit/:id')
+  updateClient(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() createClientDTO: CreateClientDTO,
+  ): Promise<Client> {
+    return this.clientService.updateClient(id, createClientDTO);
+  }
+
+  @Delete(':id')
+  deleteClient(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.clientService.deleteClient(id);
   }
 }

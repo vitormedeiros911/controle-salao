@@ -14,14 +14,15 @@ export class CreateScheduleDTO {
   @Type(() => Date)
   date: Date;
 
-  @IsString()
-  @IsNotEmpty({ message: "O cliente deve ser informado!"})
-  client: string;
-
   @IsNumber()
   @IsNotEmpty({ message: 'Selecione um procedimento!' })
   @Type(() => Number)
   procedureId: number;
+
+  @IsNumber()
+  @IsNotEmpty({ message: 'Selecione um cliente!' })
+  @Type(() => Number)
+  clientId: number;
 
   @IsOptional()
   @IsString()

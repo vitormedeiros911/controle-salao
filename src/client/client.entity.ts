@@ -5,9 +5,9 @@ export class Client extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ length: 100 })
   name: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, length: 15 })
   phone: string;
 }

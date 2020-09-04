@@ -1,11 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  forwardRef,
+  Inject,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { ProcedureRepository } from './procedure.repository';
 import { Procedure } from './procedure.entity';
 import { CreateProcedureDTO } from './DTO/create-procedure.dto';
 import { ProcedureExistentException } from './procedureExistent.exception';
-import { CannotDeleteEntityException } from 'src/exception/CannotDeleteEntity.exception';
 
 import { ScheduleService } from 'src/scheduling/schedule.service';
 
@@ -14,6 +18,7 @@ export class ProcedureService {
   constructor(
     @InjectRepository(ProcedureRepository)
     private procedureRepository: ProcedureRepository,
+    @Inject(forwardRef(() => ScheduleService))
     private scheduleService: ScheduleService,
   ) {}
 
@@ -58,13 +63,8 @@ export class ProcedureService {
   }
 
   async deleteProcedure(id: number): Promise<void> {
-    const relatedProcedure = await this.scheduleService.getRelatedProcedure(id);
-
-    if (relatedProcedure) {
-      throw new CannotDeleteEntityException();
-    } else {
-      await this.getOneProcedure(id);
-      await this.procedureRepository.delete({ id });
-    }
+    await this.scheduleService.getRelatedProcedure(id);
+    await this.getOneProcedure(id);
+    await this.procedureRepository.delete({ id });
   }
 }

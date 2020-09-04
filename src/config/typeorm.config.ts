@@ -2,7 +2,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 import { Procedure } from '../procedure/procedure.entity';
 import { Schedule } from '../scheduling/schedule.entity';
-import { Client } from 'src/client/cliente.entity';
+import { Client } from 'src/client/client.entity';
 
 export const TypeOrmConfig: TypeOrmModuleOptions = {
   type: 'postgres',

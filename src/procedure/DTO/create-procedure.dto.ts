@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreateProcedureDTO {
   @IsString()
@@ -7,5 +8,6 @@ export class CreateProcedureDTO {
 
   @IsNumber()
   @IsNotEmpty({ message: 'O preço do procedimento não pode estar vazio' })
+  @Type(() => Number)
   cost: number;
 }
