@@ -10,6 +10,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { SelectQueryBuilder } from 'typeorm';
 
 import { ScheduleService } from './schedule.service';
 import { CreateScheduleDTO } from './DTO/create-schedule.dto';
@@ -37,7 +38,7 @@ export class ScheduleController {
   @Get()
   async getAllSchedules(
     @Query() filter: FilterScheduleDTO,
-  ): Promise<Schedule[]> {
+  ): Promise<SelectQueryBuilder<Schedule> | Schedule[]> {
     if (filter.date) {
       return await this.scheduleRepository.find({
         where: { date: filter.date },
@@ -51,7 +52,10 @@ export class ScheduleController {
         where: { status: filter.status },
       });
     } else {
-      return await this.scheduleRepository.find();
+      return await this.scheduleRepository
+        .createQueryBuilder('schedule')
+        .orderBy('schedule.date', 'DESC')
+        .getMany();
     }
   }
 
