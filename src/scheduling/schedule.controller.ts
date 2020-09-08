@@ -42,20 +42,22 @@ export class ScheduleController {
     if (filter.date) {
       return await this.scheduleRepository.find({
         where: { date: filter.date },
+        relations: ['procedure', 'client'],
       });
     } else if (filter.procedureId) {
       return await this.scheduleRepository.find({
         where: { procedureId: filter.procedureId },
+        relations: ['procedure', 'client'],
       });
     } else if (filter.status) {
       return await this.scheduleRepository.find({
         where: { status: filter.status },
+        relations: ['procedure', 'client'],
       });
     } else {
-      return await this.scheduleRepository
-        .createQueryBuilder('schedule')
-        .orderBy('schedule.date', 'DESC')
-        .getMany();
+      return await this.scheduleRepository.find({
+        relations: ['procedure', 'client'],
+      });
     }
   }
 

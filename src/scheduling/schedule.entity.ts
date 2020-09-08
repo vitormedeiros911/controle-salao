@@ -4,6 +4,7 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 
 import { Procedure } from '../procedure/procedure.entity';
@@ -22,15 +23,16 @@ export class Schedule extends BaseEntity {
   status: ScheduleStatus;
 
   @ManyToOne(() => Procedure)
+  @JoinColumn({ name: 'procedure_id', referencedColumnName: 'id' })
   procedure: Procedure;
 
-  @Column()
+  @Column({ name: 'procedure_id' })
   procedureId: number;
 
   @ManyToOne(() => Client)
+  @JoinColumn({ name: 'client_id', referencedColumnName: 'id' })
   client: Client;
 
-  @Column()
+  @Column({ name: 'client_id' })
   clientId: number;
-
 }
