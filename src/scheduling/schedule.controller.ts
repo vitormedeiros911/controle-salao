@@ -56,6 +56,7 @@ export class ScheduleController {
       });
     } else {
       return await this.scheduleRepository.find({
+        where: { status: 'AGENDADO' },
         relations: ['procedure', 'client'],
       });
     }

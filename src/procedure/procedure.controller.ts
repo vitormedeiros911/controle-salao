@@ -32,7 +32,7 @@ export class ProcedureController {
     return this.procedureService.createProcedure(createProcedureDTO);
   }
 
-  @Get()
+  @Get('/all')
   async getAllProcedures(@Query() filter: FilterDTO): Promise<Procedure[]> {
     if (filter.search) {
       return await this.procedureRepository.find({

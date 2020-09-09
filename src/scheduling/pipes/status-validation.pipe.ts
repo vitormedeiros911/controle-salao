@@ -4,13 +4,17 @@ import { ScheduleStatus } from '../schedule-status.enum';
 
 export class ScheduleStatusValidationPipe implements PipeTransform {
   readonly allowedStatuses = [ScheduleStatus.AGENDADO, ScheduleStatus.FEITO];
-  transform(value: any) {
-    value = value.toUpperCase();
-    if (!this.isStatusValid(value)) {
-      throw new BadRequestException(`"${value}" é um status inválido!`);
-    }
+  transform(value?: any) {
+    if(value != null) {
+      value = value.toUpperCase();
+      if (!this.isStatusValid(value)) {
+        throw new BadRequestException(`"${value}" é um status inválido!`);
+      }
 
-    return value;
+      return value;
+    } else {
+      throw new BadRequestException('Não foi possível atualizar o status')
+    }
   }
 
   private isStatusValid(status: ScheduleStatus) {
