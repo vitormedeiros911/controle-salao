@@ -43,21 +43,25 @@ export class ScheduleController {
       return await this.scheduleRepository.find({
         where: { date: filter.date },
         relations: ['procedure', 'client'],
+        order: { date: 'ASC' },
       });
     } else if (filter.procedureId) {
       return await this.scheduleRepository.find({
         where: { procedureId: filter.procedureId },
         relations: ['procedure', 'client'],
+        order: { date: 'ASC' },
       });
     } else if (filter.status) {
       return await this.scheduleRepository.find({
         where: { status: filter.status },
         relations: ['procedure', 'client'],
+        order: { date: 'ASC' },
       });
     } else {
       return await this.scheduleRepository.find({
         where: { status: 'AGENDADO' },
         relations: ['procedure', 'client'],
+        order: { date: 'ASC' },
       });
     }
   }

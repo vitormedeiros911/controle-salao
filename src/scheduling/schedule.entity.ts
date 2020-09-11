@@ -16,8 +16,11 @@ export class Schedule extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'date' })
   date: Date;
+
+  @Column({ type: 'time' })
+  time: Date;
 
   @Column({ default: ScheduleStatus.AGENDADO })
   status: ScheduleStatus;
