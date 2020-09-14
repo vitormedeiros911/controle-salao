@@ -28,10 +28,10 @@ export class ScheduleService {
   async createSchedule(
     createScheduleDTO: CreateScheduleDTO,
   ): Promise<Schedule> {
-    const { date, procedureId, clientId } = createScheduleDTO;
+    const { date, time, procedureId, clientId } = createScheduleDTO;
 
     const existentSchedule = await this.scheduleRepository.findOne({
-      where: { date },
+      where: { date } && { time },
     });
 
     await this.procedureService.getOneProcedure(procedureId);

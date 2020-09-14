@@ -15,8 +15,7 @@ export class CreateScheduleDTO {
   date: Date;
 
   @IsNotEmpty({ message: 'O horário do agendamento não pode ser vazio!' })
-  @Type(() => Date)
-  time: Date;
+  time: string;
 
   @IsNumber()
   @IsNotEmpty({ message: 'Selecione um procedimento!' })

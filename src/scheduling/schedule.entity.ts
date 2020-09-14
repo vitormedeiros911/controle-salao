@@ -20,7 +20,7 @@ export class Schedule extends BaseEntity {
   date: Date;
 
   @Column({ type: 'time' })
-  time: Date;
+  time: string;
 
   @Column({ default: ScheduleStatus.AGENDADO })
   status: ScheduleStatus;
